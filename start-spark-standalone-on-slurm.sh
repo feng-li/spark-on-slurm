@@ -8,10 +8,9 @@
 # export PATH=$JAVA_HOME/bin:$SPARK_HOME/bin:$PATH
 
 if [[ -z $SLURMD_NODENAME ]]; then
-    echo -e "Please run this command in a SLURM job session with something similar
+    echo -e "Please run this command in a SLURM job session with something similar as
 
     srun --export=ALL --nodes 3 --cpus-per-task 56 --mem=240G --time=24:00:00 --pty /usr/bin/bash
-
     "
     exit 0;
 fi
@@ -30,10 +29,17 @@ if [[ -z $SPARK_CONF_DIR ]]; then
 fi
 
 
-# Set Spark master and workers
-mv $SPARK_CONF_DIR/workers $SPARK_CONF_DIR/worker.old
-cp $SPARK_CONF_DIR/spark-defaults.conf $SPARK_CONF_DIR/spark-defaults.old
+if [[ -f $SPARK_CONF_DIR/workers ]]; then
+    mv $SPARK_CONF_DIR/workers $SPARK_CONF_DIR/worker.old
+fi
 
+if [[ -f $SPARK_CONF_DIR/spark-defaults.conf ]]; then
+    cp $SPARK_CONF_DIR/spark-defaults.conf $SPARK_CONF_DIR/spark-defaults.old
+else
+    touch $SPARK_CONF_DIR/spark-defaults.conf
+fi
+
+# Set Spark master and workers
 nodelist=`scontrol show hostnames`
 for node in $nodelist
 do
