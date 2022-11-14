@@ -20,4 +20,4 @@ The above command will allocate three nodes with an interactive session on the f
 bash start_spark_standalone_on_slurm.sh
 ```
 
-This script firstly writes the `spark-defaults.conf` file with the first Slurm node as the master and write a `workers` file with other nodes as workers. And then start the server.
+This script firstly writes the `spark-defaults.conf` file with the first allocated Slurm node as the master and writes a `workers` file with other nodes as workers. And then start the server.
