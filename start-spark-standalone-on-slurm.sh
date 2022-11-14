@@ -1,9 +1,14 @@
 #! /usr/bin/env bash
 
-# Set Spark environment
+# Set Spark environment if you have not set them elsewhere
+# export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.ea.28-7.el7.x86_64
+# export SPARK_HOME=$HOME/.local/mapreduce/spark-current
+# export SPARK_CONF_DIR=$HOME/.local/mapreduce/spark-on-slurm
+# export PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.9.5-src.zip:$PYTHONPATH
+# export PATH=$JAVA_HOME/bin:$SPARK_HOME/bin:$PATH
 
 if [[ -z $SLURMD_NODENAME ]]; then
-    echo -e "Please run this command within a SLURM job session with something similar
+    echo -e "Please run this command in a SLURM job session with something similar
 
     srun --export=ALL --nodes 3 --cpus-per-task 56 --mem=240G --time=24:00:00 --pty /usr/bin/bash
 
@@ -11,13 +16,18 @@ if [[ -z $SLURMD_NODENAME ]]; then
     exit 0;
 fi
 
-
-export JAVA_HOME=/usr/lib/jvm/java
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.ea.28-7.el7.x86_64
-export SPARK_HOME=$HOME/.local/mapreduce/spark-current
-export SPARK_CONF_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-export PYTHONPATH=$SPARK_HOME/python:$SPARK_HOME/python/lib/py4j-0.10.9.5-src.zip:$PYTHONPATH
-export PATH=$JAVA_HOME/bin:$SPARK_HOME/bin:$PATH
+if [[ -z $JAVA_HOME ]]; then
+    echo '$JAVA_HOME not set!'
+    exit 0;
+fi
+if [[ -z $SPARK_HOME ]]; then
+    echo '$SPARK_HOME not set!'
+    exit 0;
+fi
+if [[ -z $SPARK_CONF_DIR ]]; then
+    echo '$SPARK_CONF_DIR not set!'
+    exit 0;
+fi
 
 
 # Set Spark master and workers
