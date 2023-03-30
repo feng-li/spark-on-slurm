@@ -8,7 +8,9 @@
 # export PATH=$JAVA_HOME/bin:$SPARK_HOME/bin:$PATH
 
 if [[ -z $SLURMD_NODENAME ]]; then
-    echo -e "Please run this command in a SLURM job session with something similar as
+    echo -e "
+    Please run this script within an interactive SLURM job session.
+    You could start the SLURM session like:
 
     srun --export=ALL --nodes 3 --cpus-per-task 56 --mem=240G --time=24:00:00 --pty /usr/bin/bash
     "
@@ -48,10 +50,18 @@ do
 	echo -e "spark.master     spark://${node}:7077" >> $SPARK_CONF_DIR/spark-defaults.conf
 	echo Set $node as spark master
     else
-	echo Add workers
+	echo Add worker on $node
         echo $node >> ${SPARK_CONF_DIR}/workers
     fi
 done
 
 # Start masters and workers
 eval ${SPARK_HOME}/sbin/start-all.sh
+
+echo -e '
+You could use the following command to stop Spark server:
+
+    ${SPARK_HOME}/sbin/stop-all.sh
+
+NOTE: If you terminate your current SLRUM session, e.g. with "scancel", the Spark server will be terminated unconditionally.
+'
