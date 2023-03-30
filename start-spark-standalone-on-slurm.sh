@@ -59,9 +59,9 @@ done
 eval ${SPARK_HOME}/sbin/start-all.sh
 
 echo -e '
-You could use the following command to stop Spark server:
+     You could use the following command to stop Spark server:
 
-    ${SPARK_HOME}/sbin/stop-all.sh
+         ${SPARK_HOME}/sbin/stop-all.sh
 
-NOTE: If you terminate your current SLRUM session, e.g. with "scancel", the Spark server will be terminated unconditionally.
-'
+     NOTE: If you terminate your current SLRUM session, e.g. with "scancel", the Spark server will be terminated unconditionally.
+     '
