@@ -5,11 +5,22 @@ Simple script to deploy a Spark (with workers) server on a Slurm cluster
 ## Prerequisites
 
 - A Slurm server with a shared folder to all computing nodes.
-- A [latest Spark biniary](https://spark.apache.org/downloads.html) unzipped in that shared folder.
+- A [latest Spark biniary](https://spark.apache.org/downloads.html) unzipped in that shared folder (`$SPARK_HOME`).
 
 ## Steps
 
+### Setup Spark environment
+
+Using the following command to setup the necessary environment `$JAVA_HOME`,  `$SPARK_HOME` and `SPARK_CONF`
+
+``` shell
+source setup-spark-env.sh
+```
+
+
 ### Allocate cluster resources
+
+Do not leave the current shell and run
 
 ```shell
 srun --export=ALL --nodes 3 --cpus-per-task 56 --mem=240G --time=24:00:00 --pty /usr/bin/bash
@@ -51,4 +62,3 @@ $SPARK_HOME/bin/pyspark
 ```shell
 $SPARK_HOME/sbin/stop-all.sh
 ```
-
