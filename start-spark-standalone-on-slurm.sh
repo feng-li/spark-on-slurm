@@ -49,6 +49,9 @@ do
 	sed -i 's/^spark.master/# &/' $SPARK_CONF_DIR/spark-defaults.conf
 	echo -e "spark.master     spark://${node}:7077" >> $SPARK_CONF_DIR/spark-defaults.conf
 	echo Set $node as spark master
+
+        # Remove default localhost as worker
+	sed -i 's/^localhost/# &/' $SPARK_CONF_DIR/workers
     else
 	echo Add worker on $node
         echo $node >> ${SPARK_CONF_DIR}/workers
